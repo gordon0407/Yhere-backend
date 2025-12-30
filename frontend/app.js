@@ -1,5 +1,5 @@
 // 測試後端連接
-fetch('http://localhost:3000')
+fetch('https://yhere-backend.onrender.com/spots?country=HK')
   .then(res => res.json())
   .then(data => {
     document.getElementById('status').innerText = data.message;
@@ -45,7 +45,7 @@ async function loadSpots(country) {
 
   focusCountry(country);
 
-  const res = await fetch(`http://localhost:3000/spots?country=${country}`);
+  const res = await fetch(`https://yhere-backend.onrender.com/spots?country=${country}`);
   const spots = await res.json();
 
   clearMarkers();
@@ -86,7 +86,7 @@ function clearDetails() {
 
 // 打開詳情（給 popup 裏面的 button 用）
 window.openDetails = async function (id) {
-  const res = await fetch(`http://localhost:3000/spots/${id}`);
+  const res = await fetch(`https://yhere-backend.onrender.com/spots/${id}`);
   const spot = await res.json();
 
   const panel = document.getElementById('detailsPanel');
@@ -145,7 +145,7 @@ window.openDetails = async function (id) {
     const rating = Number(document.getElementById('reviewRating').value || 5);
     const comment = document.getElementById('reviewComment').value;
 
-    const res = await fetch(`http://localhost:3000/spots/${id}/reviews`, {
+    const res = await fetch(`https://yhere-backend.onrender.com/spots/${id}/reviews`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user, rating, comment })

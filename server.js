@@ -74,3 +74,22 @@ app.post('/spots/:id/reviews', async (req, res) => {
 app.listen(3000, () => {
   console.log("後端伺服器已啟動：http://localhost:3000");
 });
+
+app.post('/spots', async (req, res) => {
+  const { name, city, country, description, lat, lng, thumbnail } = req.body;
+
+  if (!name || !country || !lat || !lng) {
+    return res.status(400).json({ error: "缺少必要欄位" });
+  }
+
+  const { data, error } = await supabase
+    .from('spots')
+    .insert([
+      { name, city, country, description, lat, lng, thumbnail }
+    ])
+    .select();
+
+  if (error) return res.status(500).json({ error: error.message });
+
+  res.json({ message: "新增成功", spot: data[0] });
+});
